@@ -1,7 +1,3 @@
-# barbearia-agendamento
-Sistema de Agendamento de Barbearia para Barbearia Style
-Claro! Vou criar um README profissional para seu projeto. Aqui está:
-
 # 💈 Barbearia Agendamento - MVP
 
 Sistema de agendamento para barbearia desenvolvido como MVP (Minimum Viable Product) para gerenciar clientes, serviços, barbeiros e agendamentos.
