@@ -18,6 +18,9 @@ Sistema de agendamento para barbearia desenvolvido como MVP (Minimum Viable Prod
 - **JavaScript (ES6+)** - Funcionalidades
 - **Fetch API** - Comunicação com backend
 
+## ORM/DB
+- **MySQL** - Conexão Banco de Dados
+
 ## 📦 Funcionalidades
 
 ### ✅ Implementadas
