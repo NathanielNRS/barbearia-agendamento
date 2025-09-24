@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Barbearia Style</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e67e22;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background-color: var(--primary) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            background: white;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            border-bottom: none;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .card-body {
+            padding: 30px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        .form-control {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.25rem rgba(230, 126, 34, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .alert {
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: none;
+        }
+        
+        .link-login {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .link-login:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .password-strength {
+            height: 5px;
+            border-radius: 3px;
+            margin-top: 5px;
+            background-color: #eee;
+            overflow: hidden;
+        }
+        
+        .strength-0 { width: 20%; background-color: #dc3545; }
+        .strength-1 { width: 40%; background-color: #fd7e14; }
+        .strength-2 { width: 60%; background-color: #ffc107; }
+        .strength-3 { width: 80%; background-color: #20c997; }
+        .strength-4 { width: 100%; background-color: #198754; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <strong>💈 Barbearia Style</strong>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Cadastro</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="registerMessage" class="alert" style="display: none;"></div>
+                        
+                        <form id="registerForm">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control" id="nome" required placeholder="Seu nome completo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" required placeholder="seu@email.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone" class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" id="telefone" required placeholder="(11) 99999-9999">
+                            </div>
+                            <div class="mb-3">
+                                <label for="senha" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="senha" required placeholder="Mínimo de 6 caracteres">
+                                <div class="password-strength" id="passwordStrength"></div>
+                                <small class="text-muted">A senha deve ter pelo menos 6 caracteres</small>
+                            </div>
+                            <div class="mb-4">
+                                <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                <input type="password" class="form-control" id="confirmarSenha" required placeholder="Digite a senha novamente">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <span id="registerText">Cadastrar</span>
+                                <span id="registerSpinner" class="loading" style="display: none;"></span>
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <p>Já tem conta? <a href="login.html" class="link-login">Faça login</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para validar a força da senha
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            
+            if (password.length >= 6) strength++;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            return Math.min(strength, 4);
+        }
+
+        // Função para validar o formulário
+        function validateForm() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const telefone = document.getElementById('telefone').value;
+            const senha = document.getElementById('senha').value;
+            const confirmarSenha = document.getElementById('confirmarSenha').value;
+            const messageElement = document.getElementById('registerMessage');
+            
+            // Reset message
+            messageElement.style.display = 'none';
+            
+            // Validar campos obrigatórios
+            if (!nome || !email || !telefone || !senha || !confirmarSenha) {
+                messageElement.textContent = 'Por favor, preencha todos os campos.';
+                messageElement.className = 'alert alert-danger';
+                messageElement.style.display = 'block';
+                return false;
+            }
+            
+            // Validar email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                messageElement.textContent = 'Por favor, insira um email válido.';
+                messageElement.className = 'alert alert-danger';
+                messageElement.style.display = 'block';
+                return false;
+            }
+            
+            // Validar senha
+            if (senha.length < 6) {
+                messageElement.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+                messageElement.className = 'alert alert-danger';
+                messageElement.style.display = 'block';
+                return false;
+            }
+            
+            // Validar confirmação de senha
+            if (senha !== confirmarSenha) {
+                messageElement.textContent = 'As senhas não coincidem.';
+                messageElement.className = 'alert alert-danger';
+                messageElement.style.display = 'block';
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Função para registrar usuário
+        async function registerUser(userData) {
+            try {
+                const response = await fetch('http://localhost:3001/auth/registrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    return { success: true, data };
+                } else {
+                    return { 
+                        success: false, 
+                        message: data.message || 'Erro ao realizar cadastro' 
+                    };
+                }
+            } catch (error) {
+                return { 
+                    success: false, 
+                    message: 'Erro de conexão. Verifique se o servidor está rodando.' 
+                };
+            }
+        }
+
+        // Configurar eventos quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const senhaInput = document.getElementById('senha');
+            const passwordStrength = document.getElementById('passwordStrength');
+            
+            // Event listener para força da senha
+            senhaInput.addEventListener('input', function() {
+                const strength = checkPasswordStrength(this.value);
+                passwordStrength.className = 'password-strength strength-' + strength;
+            });
+            
+            // Event listener para o formulário
+            registerForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!validateForm()) return;
+                
+                const registerText = document.getElementById('registerText');
+                const registerSpinner = document.getElementById('registerSpinner');
+                const messageElement = document.getElementById('registerMessage');
+                
+                // Mostrar loading
+                registerText.textContent = 'Cadastrando...';
+                registerSpinner.style.display = 'inline-block';
+                messageElement.style.display = 'none';
+                
+                // Preparar dados para envio
+                const userData = {
+                    nome: document.getElementById('nome').value,
+                    email: document.getElementById('email').value,
+                    telefone: document.getElementById('telefone').value,
+                    senha: document.getElementById('senha').value
+                };
+                
+                // Tentar registrar
+                const result = await registerUser(userData);
+                
+                if (result.success) {
+                    messageElement.textContent = 'Cadastro realizado com sucesso! Redirecionando para login...';
+                    messageElement.className = 'alert alert-success';
+                    messageElement.style.display = 'block';
+                    
+                    // Redirecionar para login após 2 segundos
+                    setTimeout(() => {
+                        window.location.href = 'login.html?registered=true';
+                    }, 2000);
+                } else {
+                    messageElement.textContent = result.message;
+                    messageElement.className = 'alert alert-danger';
+                    messageElement.style.display = 'block';
+                    
+                    // Restaurar botão
+                    registerText.textContent = 'Cadastrar';
+                    registerSpinner.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

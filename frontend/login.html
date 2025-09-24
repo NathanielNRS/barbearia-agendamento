@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Barbearia Style</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e67e22;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: var(--primary) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ✅ CAIXA MUITO MAIOR E MAIS CONfortÁVEL */
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px; /* ✅ AUMENTEI DE 400px PARA 600px */
+            min-width: 500px; /* ✅ LARGURA MÍNIMA GARANTIDA */
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+            padding: 35px; /* ✅ MAIS ESPAÇO NO TOPO */
+            border-bottom: none;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 2.2rem; /* ✅ TÍTULO MAIOR */
+        }
+
+        .card-body {
+            padding: 40px; /* ✅ MUITO MAIS ESPAÇO INTERNO */
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 12px;
+            font-size: 1.1rem; /* ✅ LABELS MAIORES */
+        }
+
+        .form-control {
+            padding: 15px 20px; /* ✅ CAMPOS MAIS ALTOS */
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+            font-size: 1.1rem; /* ✅ TEXTO MAIOR NOS CAMPOS */
+            height: 55px; /* ✅ ALTURA FIXA MAIOR */
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.3rem rgba(230, 126, 34, 0.25);
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            padding: 18px; /* ✅ BOTÃO MAIS ALTO */
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 1.2rem; /* ✅ TEXTO MAIOR NO BOTÃO */
+            height: 60px; /* ✅ ALTURA MAIOR */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert {
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border: none;
+            font-size: 1.1rem;
+        }
+
+        .logout-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .link-cadastro {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .link-cadastro:hover {
+            color: var(--primary);
+            text-decoration: underline;
+            transform: scale(1.05);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .connection-status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .online {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .offline {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .form-group {
+            margin-bottom: 25px; /* ✅ MAIS ESPAÇO ENTRE OS CAMPOS */
+        }
+
+        .text-center mt-4 {
+            margin-top: 30px !important;
+        }
+
+        /* ✅ RESPONSIVIDADE MELHORADA */
+        @media (max-width: 768px) {
+            .card {
+                max-width: 90%;
+                min-width: unset;
+                margin: 0 auto;
+            }
+            
+            .card-body {
+                padding: 30px 25px;
+            }
+            
+            .card-header {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-body {
+                padding: 25px 20px;
+            }
+            
+            .form-control {
+                padding: 12px 15px;
+                height: 50px;
+            }
+            
+            .btn-primary {
+                padding: 15px;
+                height: 55px;
+            }
+        }
+
+        /* ✅ EFEITOS VISUAIS EXTRAS */
+        .card-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            z-index: 5;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <strong>💈 Barbearia Style</strong>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="logoutMessage" class="logout-message" style="display: none;">
+                            Logout realizado com sucesso!
+                        </div>
+
+                        <div id="loginMessage" class="alert alert-danger" style="display: none;"></div>
+
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <input type="email" class="form-control" id="email" required
+                                        placeholder="seu.melhor@email.com">
+                                    <span class="input-icon">✉️</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="senha" class="form-label">Senha</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="senha" required 
+                                        placeholder="Digite sua senha">
+                                    <span class="input-icon">👁️</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <span id="loginText">Entrar no Sistema</span>
+                                    <span id="loginSpinner" class="loading" style="display: none;"></span>
+                                </button>
+                            </div>
+                        </form>
+
+                        <div id="connectionStatus" class="connection-status offline" style="display: none;">
+                            Tentando conectar com o servidor...
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p>Não tem conta? <a href="register.html" class="link-cadastro">Cadastre-se aqui</a></p>
+                            <p class="text-muted mt-2">Problemas para acessar? <a href="#" class="link-cadastro">Recuperar senha</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    
+    <script>
+        async function verificarConexao() {
+            const statusElement = document.getElementById('connectionStatus');
+            
+            try {
+                statusElement.style.display = 'block';
+                statusElement.className = 'connection-status offline';
+                statusElement.innerHTML = '🔄 Verificando conexão com o servidor...';
+
+                const response = await fetch('http://localhost:3001/auth/health');
+                
+                if (response.ok) {
+                    statusElement.className = 'connection-status online';
+                    statusElement.innerHTML = 'Conectado ao servidor! Tudo pronto.';
+                    setTimeout(() => {
+                        statusElement.style.display = 'none';
+                    }, 4000);
+                    return true;
+                } else {
+                    throw new Error('Servidor não respondeu corretamente');
+                }
+            } catch (error) {
+                statusElement.className = 'connection-status offline';
+                statusElement.innerHTML = 'Não foi possível conectar ao servidor.<br>👉 Verifique se o backend está rodando na porta 3001';
+                return false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            console.log('✅ Página de login carregada');
+            
+            if (typeof window.apiService === 'undefined') {
+                console.error('❌ apiService não carregado!');
+                document.getElementById('loginMessage').textContent = 'Erro: apiService não carregado. Verifique o console.';
+                document.getElementById('loginMessage').style.display = 'block';
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('logout')) {
+                document.getElementById('logoutMessage').style.display = 'block';
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            await verificarConexao();
+
+            document.getElementById('loginForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value;
+                const senha = document.getElementById('senha').value;
+                const loginText = document.getElementById('loginText');
+                const loginSpinner = document.getElementById('loginSpinner');
+                const loginMessage = document.getElementById('loginMessage');
+
+                loginText.textContent = '⏳ Entrando...';
+                loginSpinner.style.display = 'inline-block';
+                loginMessage.style.display = 'none';
+
+                try {
+                    console.log('📤 Tentando login com:', email);
+                    
+                    const data = await window.apiService.login(email, senha);
+                    
+                    console.log('✅ Login bem-sucedido:', data);
+                    
+                    loginText.textContent = '✅ Redirecionando...';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'agendamentos.html';
+                    }, 500);
+
+                } catch (error) {
+                    console.error('❌ Erro no login:', error);
+                    
+                    let mensagemErro = 'Erro ao fazer login';
+                    
+                    if (error.message.includes('Failed to fetch')) {
+                        mensagemErro = '🌐 Erro de conexão. Verifique se o servidor está rodando.';
+                    } else if (error.message.includes('Credenciais inválidas')) {
+                        mensagemErro = '🔐 Email ou senha incorretos. Tente novamente.';
+                    } else {
+                        mensagemErro = error.message;
+                    }
+                    
+                    loginMessage.textContent = mensagemErro;
+                    loginMessage.style.display = 'block';
+                    
+                } finally {
+                    setTimeout(() => {
+                        loginText.textContent = '🚀 Entrar no Sistema';
+                        loginSpinner.style.display = 'none';
+                    }, 1000);
+                }
+            });
+
+            // ✅ EFEITO DE FOCO AUTOMÁTICO NO EMAIL
+            setTimeout(() => {
+                document.getElementById('email').focus();
+            }, 500);
+        });
+
+        function debugAuth() {
+            console.log('=== 🔍 DEBUG AUTENTICAÇÃO ===');
+            console.log('authToken:', localStorage.getItem('authToken'));
+            console.log('usuario:', localStorage.getItem('usuario'));
+            console.log('apiService:', typeof window.apiService !== 'undefined');
+        }
+
+        window.debugAuth = debugAuth;
+    </script>
+</body>
+</html>

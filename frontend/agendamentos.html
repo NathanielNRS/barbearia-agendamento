@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos - Barbearia Style</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e67e22;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --gray: #95a5a6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-logout {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .booking-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .booking-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eee;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .agendamentos-list {
+            margin-top: 30px;
+        }
+
+        .agendamento-item {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .agendamento-info h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .agendamento-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-cancel {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">💈 Barbearia Style</div>
+            <div class="user-info">
+                <span id="userName">Usuário</span>
+                <button class="btn-logout" onclick="logout()">Sair</button>
+            </div>
+        </header>
+
+        <h1>Meus Agendamentos</h1>
+
+        <div id="authAlert" class="alert alert-error">
+            Você não está autenticado. Redirecionando para login...
+        </div>
+
+        <div class="booking-section">
+            <div class="card">
+                <h2>Fazer Novo Agendamento</h2>
+
+                <div class="form-group">
+                    <label for="barbeiro">Barbeiro:</label>
+                    <select id="barbeiro" class="form-control" required>
+                        <option value="">Selecione um barbeiro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="servico">Serviço:</label>
+                    <select id="servico" class="form-control" required>
+                        <option value="">Selecione um serviço</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="data">Data:</label>
+                    <input type="date" id="data" class="form-control" required min="<?php echo date('Y-m-d'); ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="horario">Horário:</label>
+                    <select id="horario" class="form-control" required disabled>
+                        <option value="">Selecione barbeiro e data primeiro</option>
+                    </select>
+                </div>
+
+                <button id="btnAgendar" class="btn-primary">
+                    <span id="agendarText">Confirmar Agendamento</span>
+                    <span id="agendarSpinner" class="loading" style="display: none;"></span>
+                </button>
+
+                <div id="agendamentoAlert" class="alert" style="display: none;"></div>
+            </div>
+
+            <div class="card">
+                <h2>Meus Agendamentos</h2>
+                <div id="loadingAgendamentos" class="alert">
+                    Carregando seus agendamentos...
+                </div>
+                <div id="agendamentosList" class="agendamentos-list">
+                    <!-- Agendamentos serão carregados aqui -->
+                </div>
+                <div id="emptyAgendamentos" class="alert" style="display: none;">
+                    Você não possui agendamentos.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ CARREGUE api.js PRIMEIRO -->
+    <script src="js/api.js"></script>
+
+    <script>
+        // ✅ REMOVA A CONFIGURAÇÃO DUPLICADA - use apenas apiService
+        let usuario = null;
+
+        // ✅ APENAS UM DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('✅ Página de agendamentos carregada');
+            verificarAutenticacao();
+            inicializarEventListeners();
+            carregarDadosIniciais();
+        });
+
+        // ✅ VERIFICAR AUTENTICAÇÃO CORRIGIDA
+        function verificarAutenticacao() {
+            usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+            const token = localStorage.getItem('authToken');
+
+            console.log('🔐 Verificando autenticação:');
+            console.log('   👤 Usuário:', usuario);
+            console.log('   🔑 Token presente:', !!token);
+
+            if (!token || !usuario) {
+                document.getElementById('authAlert').style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return false;
+            }
+
+            document.getElementById('userName').textContent = usuario.nome;
+            document.getElementById('authAlert').style.display = 'none';
+            return true;
+        }
+
+        // ✅ INICIALIZAR EVENT LISTENERS
+        function inicializarEventListeners() {
+            // Event listener para o botão de agendamento
+            document.getElementById('btnAgendar').addEventListener('click', fazerAgendamento);
+
+            // Event listeners para carregar horários
+            document.getElementById('barbeiro').addEventListener('change', carregarHorariosDisponiveis);
+            document.getElementById('data').addEventListener('change', carregarHorariosDisponiveis);
+
+            // Event listener para logout
+            document.querySelector('.btn-logout').addEventListener('click', logout);
+        }
+
+        // ✅ CARREGAR DADOS INICIAIS
+        async function carregarDadosIniciais() {
+            if (!verificarAutenticacao()) return;
+
+            try {
+                await Promise.all([
+                    carregarBarbeiros(),
+                    carregarServicos(),
+                    carregarAgendamentos()
+                ]);
+            } catch (error) {
+                console.error('❌ Erro ao carregar dados iniciais:', error);
+                mostrarAlerta('Erro ao carregar dados. Recarregue a página.', 'error');
+            }
+        }
+
+        // ✅ CARREGAR BARBEIROS (usando apiService)
+        async function carregarBarbeiros() {
+            try {
+                console.log('🔄 Carregando barbeiros...');
+                const barbeiros = await window.apiService.getBarbeiros();
+                console.log('✅ Barbeiros carregados:', barbeiros);
+
+                const select = document.getElementById('barbeiro');
+                select.innerHTML = '<option value="">Selecione um barbeiro</option>';
+
+                barbeiros.forEach(barbeiro => {
+                    const option = document.createElement('option');
+                    option.value = barbeiro.id;
+                    option.textContent = barbeiro.nome;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('❌ Erro ao carregar barbeiros:', error);
+                mostrarAlerta('Erro ao carregar barbeiros', 'error');
+            }
+        }
+
+        // ✅ CARREGAR SERVIÇOS (usando apiService)
+        async function carregarServicos() {
+            try {
+                console.log('🔄 Carregando serviços...');
+                const servicos = await window.apiService.getServicos();
+                console.log('✅ Serviços carregados:', servicos);
+
+                const select = document.getElementById('servico');
+                select.innerHTML = '<option value="">Selecione um serviço</option>';
+
+                servicos.forEach(servico => {
+                    const option = document.createElement('option');
+                    option.value = servico.id;
+                    option.textContent = `${servico.nome} - R$ ${servico.preco}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('❌ Erro ao carregar serviços:', error);
+                mostrarAlerta('Erro ao carregar serviços', 'error');
+            }
+        }
+
+        // ✅ CARREGAR HORÁRIOS DISPONÍVEIS (CORRIGIDO)
+        async function carregarHorariosDisponiveis() {
+            const barbeiroId = document.getElementById('barbeiro').value;
+            const data = document.getElementById('data').value;
+            const horarioSelect = document.getElementById('horario');
+
+            console.log('🕒 Carregando horários para:');
+            console.log('   👨‍💼 Barbeiro ID:', barbeiroId);
+            console.log('   📅 Data:', data);
+
+            if (!barbeiroId || !data) {
+                horarioSelect.innerHTML = '<option value="">Selecione um barbeiro e data primeiro</option>';
+                horarioSelect.disabled = true;
+                return;
+            }
+
+            try {
+                horarioSelect.innerHTML = '<option value="">Carregando horários...</option>';
+                horarioSelect.disabled = true;
+
+                // ✅ CORREÇÃO: Use apiService e URL correta
+                console.log('🌐 Buscando horários disponíveis...');
+                const horarios = await window.apiService.getHorariosDisponiveis(barbeiroId, data);
+                console.log('✅ Horários recebidos:', horarios);
+
+                horarioSelect.innerHTML = '<option value="">Selecione um horário</option>';
+                horarioSelect.disabled = false;
+
+                if (horarios.length === 0) {
+                    horarioSelect.innerHTML += '<option value="" disabled>Nenhum horário disponível para esta data</option>';
+                } else {
+                    horarios.forEach(horario => {
+                        const option = document.createElement('option');
+                        option.value = horario;
+                        option.textContent = horario;
+                        horarioSelect.appendChild(option);
+                    });
+                    console.log(`✅ ${horarios.length} horários carregados`);
+                }
+            } catch (error) {
+                console.error('❌ Erro ao carregar horários:', error);
+                horarioSelect.innerHTML = '<option value="">Erro ao carregar horários</option>';
+                horarioSelect.disabled = false;
+                mostrarAlerta('Erro ao carregar horários disponíveis', 'error');
+            }
+        }
+
+        // ✅ CARREGAR AGENDAMENTOS (usando apiService)
+        async function carregarAgendamentos() {
+            if (!verificarAutenticacao()) return;
+
+            try {
+                console.log('🔄 Carregando agendamentos...');
+                document.getElementById('loadingAgendamentos').style.display = 'block';
+                document.getElementById('emptyAgendamentos').style.display = 'none';
+                document.getElementById('agendamentosList').innerHTML = '';
+
+                const agendamentos = await window.apiService.getMeusAgendamentos();
+                console.log('✅ Agendamentos carregados:', agendamentos);
+
+                document.getElementById('loadingAgendamentos').style.display = 'none';
+
+                if (agendamentos.length === 0) {
+                    document.getElementById('emptyAgendamentos').style.display = 'block';
+                    return;
+                }
+
+                const list = document.getElementById('agendamentosList');
+                agendamentos.forEach(agendamento => {
+                    const item = document.createElement('div');
+                    item.className = 'agendamento-item';
+
+                    const data = new Date(agendamento.data_agendamento).toLocaleDateString('pt-BR');
+                    const statusColor = agendamento.status === 'confirmado' ? 'green' :
+                        agendamento.status === 'cancelado' ? 'red' : 'orange';
+
+                    item.innerHTML = `
+                        <div class="agendamento-info">
+                            <h3>${agendamento.servico.nome}</h3>
+                            <p>Com: ${agendamento.barbeiro.nome}</p>
+                            <p>Data: ${data} às ${agendamento.horario}</p>
+                            <p>Status: <span style="color: ${statusColor}">${agendamento.status}</span></p>
+                        </div>
+                        <div class="agendamento-actions">
+                            ${agendamento.status === 'confirmado' ?
+                            `<button class="btn-cancel" onclick="cancelarAgendamento(${agendamento.id})">
+                                    Cancelar
+                                </button>` :
+                            '<span class="status-badge">' + agendamento.status + '</span>'
+                        }
+                        </div>
+                    `;
+
+                    list.appendChild(item);
+                });
+            } catch (error) {
+                console.error('❌ Erro ao carregar agendamentos:', error);
+                document.getElementById('loadingAgendamentos').style.display = 'none';
+                mostrarAlerta('Erro ao carregar agendamentos', 'error');
+            }
+        }
+
+        // ✅ FAZER AGENDAMENTO (usando apiService)
+        async function fazerAgendamento() {
+            if (!verificarAutenticacao()) return;
+
+            const barbeiroId = document.getElementById('barbeiro').value;
+            const servicoId = document.getElementById('servico').value;
+            const data = document.getElementById('data').value;
+            const horario = document.getElementById('horario').value;
+
+            console.log('📅 Dados do agendamento:');
+            console.log('   👨‍💼 Barbeiro:', barbeiroId);
+            console.log('   ✂️ Serviço:', servicoId);
+            console.log('   📅 Data:', data);
+            console.log('   🕒 Horário:', horario);
+
+            if (!barbeiroId || !servicoId || !data || !horario) {
+                mostrarAlerta('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+
+            const btnAgendar = document.getElementById('btnAgendar');
+            const btnText = document.getElementById('agendarText');
+            const btnSpinner = document.getElementById('agendarSpinner');
+
+            btnText.textContent = 'Agendando...';
+            btnSpinner.style.display = 'inline-block';
+            btnAgendar.disabled = true;
+
+            try {
+                console.log('🚀 Criando agendamento...');
+                const agendamentoData = {
+                    barbeiro_id: parseInt(barbeiroId),
+                    servico_id: parseInt(servicoId),
+                    data_agendamento: data,
+                    horario: horario
+                };
+
+                const novoAgendamento = await window.apiService.criarAgendamento(agendamentoData);
+                console.log('✅ Agendamento criado:', novoAgendamento);
+
+                mostrarAlerta('Agendamento realizado com sucesso!', 'success');
+
+                // Limpar formulário
+                document.getElementById('barbeiro').value = '';
+                document.getElementById('servico').value = '';
+                document.getElementById('data').value = '';
+                document.getElementById('horario').innerHTML = '<option value="">Selecione barbeiro e data primeiro</option>';
+                document.getElementById('horario').disabled = true;
+
+                // Recarregar lista
+                await carregarAgendamentos();
+            } catch (error) {
+                console.error('❌ Erro ao criar agendamento:', error);
+                mostrarAlerta(error.message || 'Erro ao realizar agendamento', 'error');
+            } finally {
+                btnText.textContent = 'Confirmar Agendamento';
+                btnSpinner.style.display = 'none';
+                btnAgendar.disabled = false;
+            }
+        }
+
+        // ✅ CANCELAR AGENDAMENTO (usando apiService)
+        async function cancelarAgendamento(id) {
+            if (!confirm('Tem certeza que deseja cancelar este agendamento?')) {
+                return;
+            }
+
+            try {
+                console.log('🗑️ Cancelando agendamento ID:', id);
+                await window.apiService.cancelarAgendamento(id);
+                mostrarAlerta('Agendamento cancelado com sucesso!', 'success');
+                await carregarAgendamentos();
+            } catch (error) {
+                console.error('❌ Erro ao cancelar agendamento:', error);
+                mostrarAlerta(error.message || 'Erro ao cancelar agendamento', 'error');
+            }
+        }
+
+        // ✅ MOSTRAR ALERTAS
+        function mostrarAlerta(mensagem, tipo) {
+            const alert = document.getElementById('agendamentoAlert');
+            alert.textContent = mensagem;
+            alert.className = `alert alert-${tipo}`;
+            alert.style.display = 'block';
+
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // ✅ LOGOUT
+        function logout() {
+            if (window.apiService) {
+                window.apiService.logout();
+            } else {
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ✅ DEBUG NO CONSOLE
+        window.debugAgendamentos = function () {
+            console.log('=== 🔍 DEBUG AGENDAMENTOS ===');
+            console.log('👤 Usuário:', usuario);
+            console.log('🔑 Token:', localStorage.getItem('authToken'));
+            console.log('🌐 apiService:', typeof window.apiService);
+        };
+    </script>
+</body>
+
+</html>
