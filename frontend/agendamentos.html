@@ -226,7 +226,7 @@
 <body>
     <div class="container">
         <header>
-            <div class="logo">💈 Barbearia Style</div>
+            <div class="logo">Barbearia Style</div>
             <div class="user-info">
                 <span id="userName">Usuário</span>
                 <button class="btn-logout" onclick="logout()">Sair</button>
@@ -283,7 +283,7 @@
                     Carregando seus agendamentos...
                 </div>
                 <div id="agendamentosList" class="agendamentos-list">
-                    <!-- Agendamentos serão carregados aqui -->
+                    
                 </div>
                 <div id="emptyAgendamentos" class="alert" style="display: none;">
                     Você não possui agendamentos.
@@ -292,29 +292,25 @@
         </div>
     </div>
 
-    <!-- ✅ CARREGUE api.js PRIMEIRO -->
     <script src="js/api.js"></script>
 
     <script>
-        // ✅ REMOVA A CONFIGURAÇÃO DUPLICADA - use apenas apiService
         let usuario = null;
 
-        // ✅ APENAS UM DOMContentLoaded
         document.addEventListener('DOMContentLoaded', function () {
-            console.log('✅ Página de agendamentos carregada');
+            console.log('Página de agendamentos carregada');
             verificarAutenticacao();
             inicializarEventListeners();
             carregarDadosIniciais();
         });
 
-        // ✅ VERIFICAR AUTENTICAÇÃO CORRIGIDA
         function verificarAutenticacao() {
             usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
             const token = localStorage.getItem('authToken');
 
-            console.log('🔐 Verificando autenticação:');
-            console.log('   👤 Usuário:', usuario);
-            console.log('   🔑 Token presente:', !!token);
+            console.log('Verificando autenticação:');
+            console.log('    Usuário:', usuario);
+            console.log('    Token presente:', !!token);
 
             if (!token || !usuario) {
                 document.getElementById('authAlert').style.display = 'block';
@@ -329,20 +325,15 @@
             return true;
         }
 
-        // ✅ INICIALIZAR EVENT LISTENERS
         function inicializarEventListeners() {
-            // Event listener para o botão de agendamento
             document.getElementById('btnAgendar').addEventListener('click', fazerAgendamento);
 
-            // Event listeners para carregar horários
             document.getElementById('barbeiro').addEventListener('change', carregarHorariosDisponiveis);
             document.getElementById('data').addEventListener('change', carregarHorariosDisponiveis);
 
-            // Event listener para logout
             document.querySelector('.btn-logout').addEventListener('click', logout);
         }
 
-        // ✅ CARREGAR DADOS INICIAIS
         async function carregarDadosIniciais() {
             if (!verificarAutenticacao()) return;
 
@@ -353,17 +344,16 @@
                     carregarAgendamentos()
                 ]);
             } catch (error) {
-                console.error('❌ Erro ao carregar dados iniciais:', error);
+                console.error('Erro ao carregar dados iniciais:', error);
                 mostrarAlerta('Erro ao carregar dados. Recarregue a página.', 'error');
             }
         }
 
-        // ✅ CARREGAR BARBEIROS (usando apiService)
         async function carregarBarbeiros() {
             try {
-                console.log('🔄 Carregando barbeiros...');
+                console.log('Carregando barbeiros...');
                 const barbeiros = await window.apiService.getBarbeiros();
-                console.log('✅ Barbeiros carregados:', barbeiros);
+                console.log('Barbeiros carregados:', barbeiros);
 
                 const select = document.getElementById('barbeiro');
                 select.innerHTML = '<option value="">Selecione um barbeiro</option>';
@@ -375,17 +365,16 @@
                     select.appendChild(option);
                 });
             } catch (error) {
-                console.error('❌ Erro ao carregar barbeiros:', error);
+                console.error('Erro ao carregar barbeiros:', error);
                 mostrarAlerta('Erro ao carregar barbeiros', 'error');
             }
         }
 
-        // ✅ CARREGAR SERVIÇOS (usando apiService)
         async function carregarServicos() {
             try {
-                console.log('🔄 Carregando serviços...');
+                console.log('Carregando serviços...');
                 const servicos = await window.apiService.getServicos();
-                console.log('✅ Serviços carregados:', servicos);
+                console.log('Serviços carregados:', servicos);
 
                 const select = document.getElementById('servico');
                 select.innerHTML = '<option value="">Selecione um serviço</option>';
@@ -397,20 +386,19 @@
                     select.appendChild(option);
                 });
             } catch (error) {
-                console.error('❌ Erro ao carregar serviços:', error);
+                console.error('Erro ao carregar serviços:', error);
                 mostrarAlerta('Erro ao carregar serviços', 'error');
             }
         }
 
-        // ✅ CARREGAR HORÁRIOS DISPONÍVEIS (CORRIGIDO)
         async function carregarHorariosDisponiveis() {
             const barbeiroId = document.getElementById('barbeiro').value;
             const data = document.getElementById('data').value;
             const horarioSelect = document.getElementById('horario');
 
-            console.log('🕒 Carregando horários para:');
-            console.log('   👨‍💼 Barbeiro ID:', barbeiroId);
-            console.log('   📅 Data:', data);
+            console.log('Carregando horários para:');
+            console.log('   Barbeiro ID:', barbeiroId);
+            console.log('   Data:', data);
 
             if (!barbeiroId || !data) {
                 horarioSelect.innerHTML = '<option value="">Selecione um barbeiro e data primeiro</option>';
@@ -422,10 +410,9 @@
                 horarioSelect.innerHTML = '<option value="">Carregando horários...</option>';
                 horarioSelect.disabled = true;
 
-                // ✅ CORREÇÃO: Use apiService e URL correta
-                console.log('🌐 Buscando horários disponíveis...');
+                console.log('Buscando horários disponíveis...');
                 const horarios = await window.apiService.getHorariosDisponiveis(barbeiroId, data);
-                console.log('✅ Horários recebidos:', horarios);
+                console.log('Horários recebidos:', horarios);
 
                 horarioSelect.innerHTML = '<option value="">Selecione um horário</option>';
                 horarioSelect.disabled = false;
@@ -442,25 +429,24 @@
                     console.log(`✅ ${horarios.length} horários carregados`);
                 }
             } catch (error) {
-                console.error('❌ Erro ao carregar horários:', error);
+                console.error('Erro ao carregar horários:', error);
                 horarioSelect.innerHTML = '<option value="">Erro ao carregar horários</option>';
                 horarioSelect.disabled = false;
                 mostrarAlerta('Erro ao carregar horários disponíveis', 'error');
             }
         }
 
-        // ✅ CARREGAR AGENDAMENTOS (usando apiService)
         async function carregarAgendamentos() {
             if (!verificarAutenticacao()) return;
 
             try {
-                console.log('🔄 Carregando agendamentos...');
+                console.log('Carregando agendamentos...');
                 document.getElementById('loadingAgendamentos').style.display = 'block';
                 document.getElementById('emptyAgendamentos').style.display = 'none';
                 document.getElementById('agendamentosList').innerHTML = '';
 
                 const agendamentos = await window.apiService.getMeusAgendamentos();
-                console.log('✅ Agendamentos carregados:', agendamentos);
+                console.log('Agendamentos carregados:', agendamentos);
 
                 document.getElementById('loadingAgendamentos').style.display = 'none';
 
@@ -498,13 +484,12 @@
                     list.appendChild(item);
                 });
             } catch (error) {
-                console.error('❌ Erro ao carregar agendamentos:', error);
+                console.error('Erro ao carregar agendamentos:', error);
                 document.getElementById('loadingAgendamentos').style.display = 'none';
                 mostrarAlerta('Erro ao carregar agendamentos', 'error');
             }
         }
 
-        // ✅ FAZER AGENDAMENTO (usando apiService)
         async function fazerAgendamento() {
             if (!verificarAutenticacao()) return;
 
@@ -513,11 +498,11 @@
             const data = document.getElementById('data').value;
             const horario = document.getElementById('horario').value;
 
-            console.log('📅 Dados do agendamento:');
-            console.log('   👨‍💼 Barbeiro:', barbeiroId);
-            console.log('   ✂️ Serviço:', servicoId);
-            console.log('   📅 Data:', data);
-            console.log('   🕒 Horário:', horario);
+            console.log('Dados do agendamento:');
+            console.log('   Barbeiro:', barbeiroId);
+            console.log('   Serviço:', servicoId);
+            console.log('   Data:', data);
+            console.log('   Horário:', horario);
 
             if (!barbeiroId || !servicoId || !data || !horario) {
                 mostrarAlerta('Por favor, preencha todos os campos.', 'error');
@@ -556,7 +541,7 @@
                 // Recarregar lista
                 await carregarAgendamentos();
             } catch (error) {
-                console.error('❌ Erro ao criar agendamento:', error);
+                console.error('Erro ao criar agendamento:', error);
                 mostrarAlerta(error.message || 'Erro ao realizar agendamento', 'error');
             } finally {
                 btnText.textContent = 'Confirmar Agendamento';
@@ -565,7 +550,6 @@
             }
         }
 
-        // ✅ CANCELAR AGENDAMENTO (usando apiService)
         async function cancelarAgendamento(id) {
             if (!confirm('Tem certeza que deseja cancelar este agendamento?')) {
                 return;
@@ -582,7 +566,6 @@
             }
         }
 
-        // ✅ MOSTRAR ALERTAS
         function mostrarAlerta(mensagem, tipo) {
             const alert = document.getElementById('agendamentoAlert');
             alert.textContent = mensagem;
@@ -594,7 +577,6 @@
             }, 5000);
         }
 
-        // ✅ LOGOUT
         function logout() {
             if (window.apiService) {
                 window.apiService.logout();
@@ -604,7 +586,6 @@
             }
         }
 
-        // ✅ DEBUG NO CONSOLE
         window.debugAgendamentos = function () {
             console.log('=== 🔍 DEBUG AGENDAMENTOS ===');
             console.log('👤 Usuário:', usuario);

@@ -41,9 +41,9 @@ export class AgendamentosController {
   }
 
   @Post()
-  async criar(@Body() agendamentoData: any, @Req() req: any): Promise<Agendamento> { // ✅ Mudei para 'any' temporariamente
-    console.log('🔍 ============ DEBUG CONTROLLER ============');
-    console.log('📥 Dados recebidos do frontend:');
+  async criar(@Body() agendamentoData: any, @Req() req: any): Promise<Agendamento> { 
+    console.log(' ============ DEBUG CONTROLLER ============');
+    console.log(' Dados recebidos do frontend:');
     console.log('   Barbeiro ID:', agendamentoData.barbeiro_id, 'tipo:', typeof agendamentoData.barbeiro_id);
     console.log('   Serviço ID:', agendamentoData.servico_id, 'tipo:', typeof agendamentoData.servico_id);
     console.log('   Data:', agendamentoData.data_agendamento);
@@ -51,7 +51,6 @@ export class AgendamentosController {
     console.log('   Usuário autenticado ID:', req.user?.id);
     console.log('   Dados completos:', agendamentoData);
 
-    // ✅ CONVERSÃO EXPLÍCITA DOS IDs
     const dadosConvertidos = {
       barbeiro_id: parseInt(agendamentoData.barbeiro_id),
       servico_id: parseInt(agendamentoData.servico_id),
@@ -60,18 +59,17 @@ export class AgendamentosController {
       usuario_id: req.user.id
     };
 
-    console.log('✅ Dados após conversão:');
+    console.log('Dados após conversão:');
     console.log('   Barbeiro ID:', dadosConvertidos.barbeiro_id, 'tipo:', typeof dadosConvertidos.barbeiro_id);
     console.log('   Serviço ID:', dadosConvertidos.servico_id, 'tipo:', typeof dadosConvertidos.servico_id);
     console.log('   Usuário ID:', dadosConvertidos.usuario_id, 'tipo:', typeof dadosConvertidos.usuario_id);
 
-    // ✅ VALIDAÇÃO RÁPIDA
     if (isNaN(dadosConvertidos.barbeiro_id) || isNaN(dadosConvertidos.servico_id)) {
-      console.error('❌ ERRO: IDs inválidos após conversão');
+      console.error('ERRO: IDs inválidos após conversão');
       throw new Error('IDs de barbeiro ou serviço inválidos');
     }
 
-    console.log('🚀 Enviando para o service...');
+    console.log('Enviando para o service...');
     return this.agendamentosService.criar(dadosConvertidos);
   }
 

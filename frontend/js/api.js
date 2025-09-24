@@ -1,4 +1,3 @@
-// js/api.js
 const API_BASE_URL = 'http://localhost:3001';
 
 class ApiService {
@@ -27,17 +26,14 @@ class ApiService {
         try {
             const response = await fetch(url, config);
 
-            // ✅ MELHOR TRATAMENTO DO ERRO 401
             if (response.status === 401) {
-                console.warn('⚠️ Token expirado ou inválido. Fazendo logout...');
+                console.warn('Token expirado ou inválido. Fazendo logout...');
 
-                // Tenta obter mais detalhes do erro
                 let errorDetail = 'Sessão expirada';
                 try {
                     const errorData = await response.json();
                     errorDetail = errorData.message || errorDetail;
                 } catch (e) {
-                    // Ignora erro de parse
                 }
 
                 this.logout();
@@ -61,9 +57,8 @@ class ApiService {
 
             return await response.json();
         } catch (error) {
-            console.error('❌ API Error:', error);
+            console.error('API Error:', error);
 
-            // ✅ DETECÇÃO MAIS ESPECÍFICA DE ERROS DE CONEXÃO
             if (error.message.includes('Failed to fetch')) {
                 throw new Error('Não foi possível conectar ao servidor. Verifique se o backend está rodando.');
             }
@@ -83,7 +78,6 @@ class ApiService {
         localStorage.removeItem('usuario');
     }
 
-    // Métodos de Autenticação
     async login(email, senha) {
         const data = await this.request('/auth/login', {
             method: 'POST',
@@ -104,7 +98,6 @@ class ApiService {
         });
     }
 
-    // Métodos de Agendamento (CORRIGIDOS)
     async getBarbeiros() {
         return this.request('/api/barbeiros');
     }
@@ -117,16 +110,15 @@ class ApiService {
         return this.request(`/api/agendamentos/horarios?barbeiroId=${barbeiroId}&data=${data}`);
     }
 
-    // NO api.js - CORRIJA O MÉTODO criarAgendamento
     async criarAgendamento(agendamentoData) {
         const dadosCorrigidos = {
             ...agendamentoData,
             barbeiro_id: parseInt(agendamentoData.barbeiro_id),
             servico_id: parseInt(agendamentoData.servico_id),
-            usuario_id: parseInt(agendamentoData.usuario_id) // se houver
+            usuario_id: parseInt(agendamentoData.usuario_id)
         };
 
-        console.log('📤 Dados do agendamento (CORRIGIDOS):', dadosCorrigidos);
+        console.log('Dados do agendamento (CORRIGIDOS):', dadosCorrigidos);
 
         return this.request('/api/agendamentos', {
             method: 'POST',
@@ -140,11 +132,10 @@ class ApiService {
 
     async cancelarAgendamento(id) {
         return this.request(`/api/agendamentos/${id}/cancelar`, {
-            method: 'PUT', // ✅ CORRIGIDO: Método PUT em vez de DELETE
+            method: 'PUT',
         });
     }
 
-    // ✅ CORRIGIDO: Rotas atualizadas para as versões corretas
     async listarAgendamentos() {
         return this.request('/api/agendamentos');
     }

@@ -1,4 +1,3 @@
-// src/services/services.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Servico } from './servico.entity';
