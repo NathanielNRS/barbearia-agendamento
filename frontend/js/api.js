@@ -145,5 +145,4 @@ class ApiService {
     }
 }
 
-// Disponibiliza globalmente para ser usado em outros arquivos
 window.apiService = new ApiService();

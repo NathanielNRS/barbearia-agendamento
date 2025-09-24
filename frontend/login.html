@@ -37,15 +37,14 @@
             padding: 20px;
         }
 
-        /* ✅ CAIXA MUITO MAIOR E MAIS CONfortÁVEL */
         .card {
             border: none;
             border-radius: 20px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             width: 100%;
-            max-width: 600px; /* ✅ AUMENTEI DE 400px PARA 600px */
-            min-width: 500px; /* ✅ LARGURA MÍNIMA GARANTIDA */
+            max-width: 600px; 
+            min-width: 500px; 
             background: white;
             transition: all 0.3s ease;
         }
@@ -59,34 +58,34 @@
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             text-align: center;
-            padding: 35px; /* ✅ MAIS ESPAÇO NO TOPO */
+            padding: 35px; 
             border-bottom: none;
         }
 
         .card-header h3 {
             margin: 0;
             font-weight: 700;
-            font-size: 2.2rem; /* ✅ TÍTULO MAIOR */
+            font-size: 2.2rem; 
         }
 
         .card-body {
-            padding: 40px; /* ✅ MUITO MAIS ESPAÇO INTERNO */
+            padding: 40px; 
         }
 
         .form-label {
             font-weight: 600;
             color: var(--dark);
             margin-bottom: 12px;
-            font-size: 1.1rem; /* ✅ LABELS MAIORES */
+            font-size: 1.1rem; 
         }
 
         .form-control {
-            padding: 15px 20px; /* ✅ CAMPOS MAIS ALTOS */
+            padding: 15px 20px;
             border-radius: 10px;
             border: 2px solid #e9ecef;
             transition: all 0.3s;
-            font-size: 1.1rem; /* ✅ TEXTO MAIOR NOS CAMPOS */
-            height: 55px; /* ✅ ALTURA FIXA MAIOR */
+            font-size: 1.1rem; 
+            height: 55px; 
         }
 
         .form-control:focus {
@@ -98,13 +97,13 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             border: none;
-            padding: 18px; /* ✅ BOTÃO MAIS ALTO */
+            padding: 18px; 
             font-weight: 600;
             border-radius: 12px;
             transition: all 0.3s;
             width: 100%;
-            font-size: 1.2rem; /* ✅ TEXTO MAIOR NO BOTÃO */
-            height: 60px; /* ✅ ALTURA MAIOR */
+            font-size: 1.2rem; 
+            height: 60px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -187,14 +186,13 @@
         }
 
         .form-group {
-            margin-bottom: 25px; /* ✅ MAIS ESPAÇO ENTRE OS CAMPOS */
+            margin-bottom: 25px;
         }
 
         .text-center mt-4 {
             margin-top: 30px !important;
         }
 
-        /* ✅ RESPONSIVIDADE MELHORADA */
         @media (max-width: 768px) {
             .card {
                 max-width: 90%;
@@ -227,7 +225,6 @@
             }
         }
 
-        /* ✅ EFEITOS VISUAIS EXTRAS */
         .card-header::after {
             content: '';
             display: block;
@@ -282,7 +279,7 @@
                                 <div class="input-group">
                                     <input type="email" class="form-control" id="email" required
                                         placeholder="seu.melhor@email.com">
-                                    <span class="input-icon">✉️</span>
+                                    
                                 </div>
                             </div>
                             
@@ -291,7 +288,7 @@
                                 <div class="input-group">
                                     <input type="password" class="form-control" id="senha" required 
                                         placeholder="Digite sua senha">
-                                    <span class="input-icon">👁️</span>
+                                
                                 </div>
                             </div>
                             
@@ -326,7 +323,7 @@
             try {
                 statusElement.style.display = 'block';
                 statusElement.className = 'connection-status offline';
-                statusElement.innerHTML = '🔄 Verificando conexão com o servidor...';
+                statusElement.innerHTML = 'Verificando conexão com o servidor...';
 
                 const response = await fetch('http://localhost:3001/auth/health');
                 
@@ -348,10 +345,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', async function () {
-            console.log('✅ Página de login carregada');
+            console.log('Página de login carregada');
             
             if (typeof window.apiService === 'undefined') {
-                console.error('❌ apiService não carregado!');
+                console.error('apiService não carregado!');
                 document.getElementById('loginMessage').textContent = 'Erro: apiService não carregado. Verifique o console.';
                 document.getElementById('loginMessage').style.display = 'block';
                 return;
@@ -374,32 +371,32 @@
                 const loginSpinner = document.getElementById('loginSpinner');
                 const loginMessage = document.getElementById('loginMessage');
 
-                loginText.textContent = '⏳ Entrando...';
+                loginText.textContent = 'Entrando...';
                 loginSpinner.style.display = 'inline-block';
                 loginMessage.style.display = 'none';
 
                 try {
-                    console.log('📤 Tentando login com:', email);
+                    console.log('Tentando login com:', email);
                     
                     const data = await window.apiService.login(email, senha);
                     
-                    console.log('✅ Login bem-sucedido:', data);
+                    console.log('Login bem-sucedido:', data);
                     
-                    loginText.textContent = '✅ Redirecionando...';
+                    loginText.textContent = 'Redirecionando...';
                     
                     setTimeout(() => {
                         window.location.href = 'agendamentos.html';
                     }, 500);
 
                 } catch (error) {
-                    console.error('❌ Erro no login:', error);
+                    console.error('Erro no login:', error);
                     
                     let mensagemErro = 'Erro ao fazer login';
                     
                     if (error.message.includes('Failed to fetch')) {
-                        mensagemErro = '🌐 Erro de conexão. Verifique se o servidor está rodando.';
+                        mensagemErro = 'Erro de conexão. Verifique se o servidor está rodando.';
                     } else if (error.message.includes('Credenciais inválidas')) {
-                        mensagemErro = '🔐 Email ou senha incorretos. Tente novamente.';
+                        mensagemErro = 'Email ou senha incorretos. Tente novamente.';
                     } else {
                         mensagemErro = error.message;
                     }
@@ -409,20 +406,19 @@
                     
                 } finally {
                     setTimeout(() => {
-                        loginText.textContent = '🚀 Entrar no Sistema';
+                        loginText.textContent = 'Entrar no Sistema';
                         loginSpinner.style.display = 'none';
                     }, 1000);
                 }
             });
 
-            // ✅ EFEITO DE FOCO AUTOMÁTICO NO EMAIL
             setTimeout(() => {
                 document.getElementById('email').focus();
             }, 500);
         });
 
         function debugAuth() {
-            console.log('=== 🔍 DEBUG AUTENTICAÇÃO ===');
+            console.log('=== DEBUG AUTENTICAÇÃO ===');
             console.log('authToken:', localStorage.getItem('authToken'));
             console.log('usuario:', localStorage.getItem('usuario'));
             console.log('apiService:', typeof window.apiService !== 'undefined');

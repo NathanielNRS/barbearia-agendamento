@@ -1,8 +1,7 @@
-// js/agendamentos.js
 
 class AgendamentoPage {
     constructor() {
-        this.apiService = new ApiService(); // Assume que ApiService está em api.js
+        this.apiService = new ApiService(); 
         this.form = document.getElementById('form-agendamento');
         this.selectBarbeiro = document.getElementById('select-barbeiro');
         this.selectServico = document.getElementById('select-servico');
@@ -131,7 +130,6 @@ class AgendamentoPage {
         this.mensagemDiv.className = `mensagem ${tipo}`;
         this.mensagemDiv.style.display = 'block';
 
-        // Some automaticamente após 5 segundos
         setTimeout(() => {
             this.mensagemDiv.style.display = 'none';
         }, 5000);
@@ -165,20 +163,17 @@ class AgendamentoPage {
     }
 }
 
-// Inicializa a página quando carregada
 document.addEventListener('DOMContentLoaded', () => {
     new AgendamentoPage();
 });
 
-// Função global para cancelar agendamento (precisa ser implementada no ApiService)
 async function cancelarAgendamento(id) {
     if (confirm('Tem certeza que deseja cancelar este agendamento?')) {
         try {
             const api = new ApiService();
             await api.cancelarAgendamento(id);
             alert('Agendamento cancelado com sucesso!');
-            location.reload(); // Recarrega a página para atualizar a lista
-        } catch (error) {
+            location.reload();        } catch (error) {
             alert('Erro ao cancelar: ' + error.message);
         }
     }

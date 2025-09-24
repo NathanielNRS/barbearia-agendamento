@@ -426,7 +426,7 @@
                         option.textContent = horario;
                         horarioSelect.appendChild(option);
                     });
-                    console.log(`✅ ${horarios.length} horários carregados`);
+                    console.log(`${horarios.length} horários carregados`);
                 }
             } catch (error) {
                 console.error('Erro ao carregar horários:', error);
@@ -527,7 +527,7 @@
                 };
 
                 const novoAgendamento = await window.apiService.criarAgendamento(agendamentoData);
-                console.log('✅ Agendamento criado:', novoAgendamento);
+                console.log('Agendamento criado:', novoAgendamento);
 
                 mostrarAlerta('Agendamento realizado com sucesso!', 'success');
 
@@ -556,12 +556,12 @@
             }
 
             try {
-                console.log('🗑️ Cancelando agendamento ID:', id);
+                console.log('Cancelando agendamento ID:', id);
                 await window.apiService.cancelarAgendamento(id);
                 mostrarAlerta('Agendamento cancelado com sucesso!', 'success');
                 await carregarAgendamentos();
             } catch (error) {
-                console.error('❌ Erro ao cancelar agendamento:', error);
+                console.error('Erro ao cancelar agendamento:', error);
                 mostrarAlerta(error.message || 'Erro ao cancelar agendamento', 'error');
             }
         }
@@ -587,10 +587,10 @@
         }
 
         window.debugAgendamentos = function () {
-            console.log('=== 🔍 DEBUG AGENDAMENTOS ===');
-            console.log('👤 Usuário:', usuario);
-            console.log('🔑 Token:', localStorage.getItem('authToken'));
-            console.log('🌐 apiService:', typeof window.apiService);
+            console.log('=== DEBUG AGENDAMENTOS ===');
+            console.log('Usuário:', usuario);
+            console.log('Token:', localStorage.getItem('authToken'));
+            console.log('apiService:', typeof window.apiService);
         };
     </script>
 </body>
