@@ -1,4 +1,3 @@
-// src/agendamentos/agendamento.entity.ts - CORRIJA
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Usuario } from '../usuarios/usuario.entity';
 import { Servico } from '../servicos/servico.entity';
@@ -13,21 +12,21 @@ export class Agendamento {
   @JoinColumn({ name: 'usuario_id' })
   usuario: Usuario;
 
-  @Column({ name: 'usuario_id' }) // ✅ ADICIONE ESTA COLUNA
+  @Column({ name: 'usuario_id' })
   usuario_id: number;
 
   @ManyToOne(() => Barbeiro, { eager: true })
   @JoinColumn({ name: 'barbeiro_id' })
   barbeiro: Barbeiro;
 
-  @Column({ name: 'barbeiro_id' }) // ✅ ADICIONE ESTA COLUNA
+  @Column({ name: 'barbeiro_id' })
   barbeiro_id: number;
 
   @ManyToOne(() => Servico, { eager: true })
   @JoinColumn({ name: 'servico_id' })
   servico: Servico;
 
-  @Column({ name: 'servico_id' }) // ✅ ADICIONE ESTA COLUNA
+  @Column({ name: 'servico_id' }) 
   servico_id: number;
 
   @Column()
