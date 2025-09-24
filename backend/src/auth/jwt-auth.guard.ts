@@ -1,4 +1,3 @@
-// src/auth/jwt-auth.guard.ts
 import { Injectable, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -9,7 +8,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization?.replace('Bearer ', '');
     
-    // ✅ DEBUG: Verifica se o token está presente
     console.log('🛡️ JWT Guard - Verificando autenticação...');
     console.log('📨 URL:', request.url);
     console.log('🔑 Token presente:', !!token);
@@ -19,7 +17,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   handleRequest(err: any, user: any, info: any) {
-    // ✅ DEBUG: Mostra o que está acontecendo
     console.log('🛡️ JWT Guard - Resultado da validação:');
     console.log('   ❌ Erro:', err);
     console.log('   👤 Usuário:', user);
@@ -28,7 +25,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (err || !user) {
       console.error('🛡️ JWT Guard - FALHA NA AUTENTICAÇÃO');
       
-      // ✅ Mensagens de erro mais específicas
+      
       if (info instanceof Error) {
         console.error('   💡 Tipo de erro:', info.name);
         console.error('   💡 Mensagem:', info.message);
@@ -45,7 +42,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       throw new UnauthorizedException('Não autorizado.');
     }
     
-    console.log('✅ JWT Guard - Autenticação bem-sucedida para usuário:', user.email);
+    console.log('JWT Guard - Autenticação bem-sucedida para usuário:', user.email);
     return user;
   }
 }

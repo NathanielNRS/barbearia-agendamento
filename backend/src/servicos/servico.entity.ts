@@ -1,4 +1,3 @@
-// src/services/servico.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Agendamento } from '../agendamentos/agendamento.entity';
 
@@ -14,7 +13,7 @@ export class Servico {
   preco: number;
 
   @Column('int')
-  duracao: number; // duração em minutos
+  duracao: number;
 
   @OneToMany(() => Agendamento, agendamento => agendamento.servico)
   agendamentos: Agendamento[];

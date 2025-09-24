@@ -1,4 +1,3 @@
-// src/barbeiros/barbeiros.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BarbeirosService } from './barbeiros.service';

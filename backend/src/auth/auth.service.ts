@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt'; // ← Esta importação deve funcionar
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsuariosService } from '../usuarios/usuarios.service';
 
@@ -7,7 +7,7 @@ import { UsuariosService } from '../usuarios/usuarios.service';
 export class AuthService {
   constructor(
     private usuariosService: UsuariosService,
-    private jwtService: JwtService, // ← Deve ser injetado corretamente
+    private jwtService: JwtService, 
   ) {}
   async validarUsuario(email: string, senha: string): Promise<any> {
     const usuario = await this.usuariosService.encontrarPorEmail(email);
@@ -20,7 +20,6 @@ export class AuthService {
     throw new UnauthorizedException('Email ou senha incorretos');
   }
 
-  // src/auth/auth.service.ts
 async login(credenciais: { email: string; senha: string }) {
   const { email, senha } = credenciais;
   const usuario = await this.usuariosService.encontrarPorEmail(email);

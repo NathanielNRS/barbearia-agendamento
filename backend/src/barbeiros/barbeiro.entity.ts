@@ -1,4 +1,3 @@
-// src/barbeiros/barbeiro.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Agendamento } from '../agendamentos/agendamento.entity';
 
@@ -14,7 +13,7 @@ export class Barbeiro {
   ativo: boolean;
 
   @Column({ type: 'text', nullable: true })
-  especialidades: string; // Ex: "Corte social, Barba, Luzes"
+  especialidades: string;
 
   @Column({ type: 'time', default: '08:00' })
   horario_inicio: string;

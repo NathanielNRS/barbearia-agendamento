@@ -1,4 +1,3 @@
-// src/barbeiros/barbeiros.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,12 +10,10 @@ export class BarbeirosService {
     private barbeirosRepository: Repository<Barbeiro>,
   ) {}
 
-  // ✅ CORRIGIDO: Padronizado para 'encontrarTodos'
   async encontrarTodos(): Promise<Barbeiro[]> {
     return this.barbeirosRepository.find({ where: { ativo: true } });
   }
 
-  // ✅ CORRIGIDO: Padronizado para 'encontrarPorId'
   async encontrarPorId(id: number): Promise<Barbeiro> {
     const barbeiro = await this.barbeirosRepository.findOne({ where: { id } });
     if (!barbeiro) {

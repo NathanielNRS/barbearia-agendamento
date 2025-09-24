@@ -1,22 +1,19 @@
-// src/servicos/servicos.service.ts - ✅ Nome do arquivo e classe corrigidos
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Servico } from './servico.entity';
 
 @Injectable()
-export class ServicosService { // ✅ Renomeado para ServicosService
+export class ServicosService { 
   constructor(
     @InjectRepository(Servico) 
     private servicosRepository: Repository<Servico>, 
   ) {}
 
-  // ✅ CORRIGIDO: Padronizado para 'encontrarTodos'
   async encontrarTodos(): Promise<Servico[]> {
     return this.servicosRepository.find();
   }
 
-  // ✅ CORRIGIDO: Padronizado para 'encontrarPorId'
   async encontrarPorId(id: number): Promise<Servico> {
     const servico = await this.servicosRepository.findOne({ where: { id } });
     if (!servico) {

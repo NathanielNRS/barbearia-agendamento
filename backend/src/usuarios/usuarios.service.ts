@@ -19,7 +19,6 @@ export class UsuariosService {
     return this.usuariosRepository.save(usuario);
   }
 
-  // ✅ MELHORADO: Adicionado NotFoundException
   async encontrarPorId(id: number): Promise<Usuario> {
     const usuario = await this.usuariosRepository.findOne({ where: { id } });
     if (!usuario) {
@@ -32,7 +31,6 @@ export class UsuariosService {
     return this.usuariosRepository.find();
   }
 
-  // ✅ SUGESTÃO: Adicionar método de atualização
   async atualizar(id: number, usuarioData: Partial<Usuario>): Promise<Usuario> {
     await this.usuariosRepository.update(id, usuarioData);
     return this.encontrarPorId(id);
