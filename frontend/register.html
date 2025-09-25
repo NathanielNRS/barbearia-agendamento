@@ -19,11 +19,13 @@
             display: flex;
             flex-direction: column;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
         }
         
         .navbar {
             background-color: var(--primary) !important;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
         
         .container {
@@ -34,71 +36,100 @@
             padding: 20px;
         }
         
+        /* ✅ BARRAS EXPANDIDAS HORIZONTALMENTE - IGUAL LOGIN */
         .card {
             border: none;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             width: 100%;
-            max-width: 450px;
+            max-width: 600px; /* ✅ AUMENTADO DE 450px PARA 600px */
+            min-width: 500px; /* ✅ LARGURA MÍNIMA GARANTIDA */
             background: white;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
         }
         
         .card-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             text-align: center;
-            padding: 25px;
+            padding: 35px; /* ✅ MAIS ESPAÇO NO TOPO */
             border-bottom: none;
         }
         
         .card-header h3 {
             margin: 0;
             font-weight: 700;
+            font-size: 2.2rem; /* ✅ TÍTULO MAIOR */
+        }
+
+        .card-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 15px auto 0;
+            border-radius: 2px;
         }
         
         .card-body {
-            padding: 30px;
+            padding: 40px; /* ✅ MAIS ESPAÇO INTERNO */
         }
         
         .form-label {
             font-weight: 600;
             color: var(--dark);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            font-size: 1.1rem; /* ✅ LABELS MAIORES */
         }
         
         .form-control {
-            padding: 12px 15px;
-            border-radius: 8px;
+            padding: 15px 20px; /* ✅ CAMPOS MAIS ALTOS */
+            border-radius: 10px;
             border: 2px solid #e9ecef;
             transition: all 0.3s;
+            font-size: 1.1rem; /* ✅ TEXTO MAIOR NOS CAMPOS */
+            height: 55px; /* ✅ ALTURA FIXA MAIOR */
         }
         
         .form-control:focus {
             border-color: var(--secondary);
-            box-shadow: 0 0 0 0.25rem rgba(230, 126, 34, 0.25);
+            box-shadow: 0 0 0 0.3rem rgba(230, 126, 34, 0.25);
+            transform: scale(1.02);
         }
         
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             border: none;
-            padding: 12px;
+            padding: 18px; /* ✅ BOTÃO MAIS ALTO */
             font-weight: 600;
-            border-radius: 8px;
+            border-radius: 12px;
             transition: all 0.3s;
             width: 100%;
+            font-size: 1.2rem; /* ✅ TEXTO MAIOR NO BOTÃO */
+            height: 60px; /* ✅ ALTURA MAIOR */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         
         .alert {
-            border-radius: 8px;
-            padding: 12px 15px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
             border: none;
+            font-size: 1.1rem;
         }
         
         .link-login {
@@ -106,22 +137,24 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
+            font-size: 1.1rem;
         }
         
         .link-login:hover {
             color: var(--primary);
             text-decoration: underline;
+            transform: scale(1.05);
         }
         
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            width: 25px;
+            height: 25px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
+            margin-right: 12px;
         }
         
         @keyframes spin {
@@ -131,11 +164,12 @@
         }
         
         .password-strength {
-            height: 5px;
-            border-radius: 3px;
-            margin-top: 5px;
+            height: 8px; /* ✅ MAIS ALTO */
+            border-radius: 4px;
+            margin-top: 8px;
             background-color: #eee;
             overflow: hidden;
+            transition: all 0.3s ease;
         }
         
         .strength-0 { width: 20%; background-color: #dc3545; }
@@ -143,6 +177,71 @@
         .strength-2 { width: 60%; background-color: #ffc107; }
         .strength-3 { width: 80%; background-color: #20c997; }
         .strength-4 { width: 100%; background-color: #198754; }
+
+        .form-group {
+            margin-bottom: 25px; /* ✅ MAIS ESPAÇO ENTRE OS CAMPOS */
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            z-index: 5;
+        }
+
+        .text-muted {
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+
+        /* ✅ RESPONSIVIDADE MELHORADA */
+        @media (max-width: 768px) {
+            .card {
+                max-width: 90%;
+                min-width: unset;
+                margin: 0 auto;
+            }
+            
+            .card-body {
+                padding: 30px 25px;
+            }
+            
+            .card-header {
+                padding: 25px;
+            }
+
+            .card-header h3 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-body {
+                padding: 25px 20px;
+            }
+            
+            .form-control {
+                padding: 12px 15px;
+                height: 50px;
+                font-size: 1rem;
+            }
+            
+            .btn-primary {
+                padding: 15px;
+                height: 55px;
+                font-size: 1.1rem;
+            }
+
+            .form-label {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -156,7 +255,7 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-12 col-md-10 col-lg-8">
                 <div class="card">
                     <div class="card-header">
                         <h3>Cadastro</h3>
@@ -165,36 +264,59 @@
                         <div id="registerMessage" class="alert" style="display: none;"></div>
                         
                         <form id="registerForm">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="nome" class="form-label">Nome Completo</label>
-                                <input type="text" class="form-control" id="nome" required placeholder="Seu nome completo">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="nome" required placeholder="Seu nome completo">
+                                    
+                                </div>
                             </div>
-                            <div class="mb-3">
+
+                            <div class="form-group">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" required placeholder="seu@email.com">
+                                <div class="input-group">
+                                    <input type="email" class="form-control" id="email" required placeholder="seu.melhor@email.com">
+                                    
+                                </div>
                             </div>
-                            <div class="mb-3">
+
+                            <div class="form-group">
                                 <label for="telefone" class="form-label">Telefone</label>
-                                <input type="tel" class="form-control" id="telefone" required placeholder="(11) 99999-9999">
+                                <div class="input-group">
+                                    <input type="tel" class="form-control" id="telefone" required placeholder="(11) 99999-9999">
+                                    
+                                </div>
                             </div>
-                            <div class="mb-3">
+
+                            <div class="form-group">
                                 <label for="senha" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="senha" required placeholder="Mínimo de 6 caracteres">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="senha" required placeholder="Mínimo de 6 caracteres">
+                                    
+                                </div>
                                 <div class="password-strength" id="passwordStrength"></div>
                                 <small class="text-muted">A senha deve ter pelo menos 6 caracteres</small>
                             </div>
-                            <div class="mb-4">
+
+                            <div class="form-group">
                                 <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
-                                <input type="password" class="form-control" id="confirmarSenha" required placeholder="Digite a senha novamente">
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="confirmarSenha" required placeholder="Digite a senha novamente">
+                                    
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">
-                                <span id="registerText">Cadastrar</span>
-                                <span id="registerSpinner" class="loading" style="display: none;"></span>
-                            </button>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <span id="registerText">Criar Minha Conta</span>
+                                    <span id="registerSpinner" class="loading" style="display: none;"></span>
+                                </button>
+                            </div>
                         </form>
                         
                         <div class="text-center mt-4">
-                            <p>Já tem conta? <a href="login.html" class="link-login">Faça login</a></p>
+                            <p>Já tem conta? <a href="login.html" class="link-login">Faça login aqui</a></p>
+                            <p class="text-muted mt-2">Cadastro rápido e seguro</p>
                         </div>
                     </div>
                 </div>
@@ -203,7 +325,6 @@
     </div>
 
     <script>
-        // Função para validar a força da senha
         function checkPasswordStrength(password) {
             let strength = 0;
             
@@ -216,7 +337,6 @@
             return Math.min(strength, 4);
         }
 
-        // Função para validar o formulário
         function validateForm() {
             const nome = document.getElementById('nome').value;
             const email = document.getElementById('email').value;
@@ -225,10 +345,8 @@
             const confirmarSenha = document.getElementById('confirmarSenha').value;
             const messageElement = document.getElementById('registerMessage');
             
-            // Reset message
             messageElement.style.display = 'none';
             
-            // Validar campos obrigatórios
             if (!nome || !email || !telefone || !senha || !confirmarSenha) {
                 messageElement.textContent = 'Por favor, preencha todos os campos.';
                 messageElement.className = 'alert alert-danger';
@@ -236,7 +354,6 @@
                 return false;
             }
             
-            // Validar email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 messageElement.textContent = 'Por favor, insira um email válido.';
@@ -245,7 +362,6 @@
                 return false;
             }
             
-            // Validar senha
             if (senha.length < 6) {
                 messageElement.textContent = 'A senha deve ter pelo menos 6 caracteres.';
                 messageElement.className = 'alert alert-danger';
@@ -253,7 +369,6 @@
                 return false;
             }
             
-            // Validar confirmação de senha
             if (senha !== confirmarSenha) {
                 messageElement.textContent = 'As senhas não coincidem.';
                 messageElement.className = 'alert alert-danger';
@@ -264,7 +379,6 @@
             return true;
         }
 
-        // Função para registrar usuário
         async function registerUser(userData) {
             try {
                 const response = await fetch('http://localhost:3001/auth/registrar', {
@@ -293,7 +407,6 @@
             }
         }
 
-        // Configurar eventos quando a página carregar
         document.addEventListener('DOMContentLoaded', function() {
             const registerForm = document.getElementById('registerForm');
             const senhaInput = document.getElementById('senha');
@@ -315,12 +428,10 @@
                 const registerSpinner = document.getElementById('registerSpinner');
                 const messageElement = document.getElementById('registerMessage');
                 
-                // Mostrar loading
-                registerText.textContent = 'Cadastrando...';
+                registerText.textContent = 'Criando conta...';
                 registerSpinner.style.display = 'inline-block';
                 messageElement.style.display = 'none';
                 
-                // Preparar dados para envio
                 const userData = {
                     nome: document.getElementById('nome').value,
                     email: document.getElementById('email').value,
@@ -328,7 +439,6 @@
                     senha: document.getElementById('senha').value
                 };
                 
-                // Tentar registrar
                 const result = await registerUser(userData);
                 
                 if (result.success) {
@@ -336,7 +446,6 @@
                     messageElement.className = 'alert alert-success';
                     messageElement.style.display = 'block';
                     
-                    // Redirecionar para login após 2 segundos
                     setTimeout(() => {
                         window.location.href = 'login.html?registered=true';
                     }, 2000);
@@ -345,11 +454,14 @@
                     messageElement.className = 'alert alert-danger';
                     messageElement.style.display = 'block';
                     
-                    // Restaurar botão
-                    registerText.textContent = 'Cadastrar';
+                    registerText.textContent = '🚀 Criar Minha Conta';
                     registerSpinner.style.display = 'none';
                 }
             });
+
+            setTimeout(() => {
+                document.getElementById('nome').focus();
+            }, 500);
         });
     </script>
 </body>
