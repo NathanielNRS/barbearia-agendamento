@@ -7,6 +7,7 @@
 
 Sistema completo de agendamento para barbearia desenvolvido com **NestJS + MySQL + JavaScript Vanilla**. Permite que clientes agendem horários com barbeiros específicos de forma intuitiva e eficiente.
 
+Link da apresentação no Youtube: https://youtu.be/MoU-th2ziW4
 ## 🎯 Objetivo do Projeto
 
 Criar uma solução completa para gestão de agendamentos em barbearias, oferecendo:
